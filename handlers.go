@@ -112,12 +112,12 @@ func RegisterBook(w http.ResponseWriter, r *http.Request) {
 	}
 
 	id := r.FormValue("id")
-	name := r.FormValue("name")
+	title := r.FormValue("title")
 	author := r.FormValue("author")
 	publisheddate := r.FormValue("publisheddate")
 	edition := r.FormValue("edition")
 
-	if id == "" || author == "" || name == "" || publisheddate == "" || edition == "" {
+	if id == "" || author == "" || title == "" || publisheddate == "" || edition == "" {
 		http.Error(w,"One or more parameter missing", http.StatusBadRequest)
 		return
 	}
@@ -138,7 +138,7 @@ func RegisterBook(w http.ResponseWriter, r *http.Request) {
 
 	newbook := Books{
 		ID: nextid,
-		Name: name,
+		Title: title,
 		Author: author,
 		PublishedDate: convert_publisheddate,
 		Edition: convert_edition,
@@ -173,11 +173,11 @@ func UpDateForm(w http.ResponseWriter, r *http.Request) {
 
 	for _,book := range books {
 		if book.ID == convert_id {
-			renderTemplate(w, "template/updateform.html",book)
+			renderTemplate(w, "templates/updateform.html",book)
 			return
 		}
 	}
-	http.Error(w, "Student not found", http.StatusBadRequest)
+	http.Error(w, "Book not found", http.StatusBadRequest)
 	return
 }
 
@@ -193,12 +193,12 @@ func BookUpdate(w http.ResponseWriter, r *http.Request) {
 	}
 
 	id := r.FormValue("id")
-	name := r.FormValue("name")
+	title := r.FormValue("title")
 	author := r.FormValue("author")
 	publisheddate := r.FormValue("publisheddate")
 	edition := r.FormValue("edition")
 
-	if id == "" || publisheddate == "" || author == "" || name == "" || edition == "" {
+	if id == "" || publisheddate == "" || author == "" || title == "" || edition == "" {
 		http.Error(w, "One or more parameter missing", http.StatusBadRequest)
 		return
 	}
@@ -223,7 +223,7 @@ func BookUpdate(w http.ResponseWriter, r *http.Request) {
 
 	for i := range books {
 		if books[i].ID == convert_id {
-			books[i].Name = name
+			books[i].Title = title
 			books[i].Author = author
 			books[i].PublishedDate = convert_publisheddate
 			books[i].Edition = convert_edition

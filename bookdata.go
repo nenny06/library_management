@@ -3,7 +3,7 @@ package main
 
 type Books struct {
 	ID int
-	Name string
+	Title string
 	Author string
 	PublishedDate int
 	Edition int

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 )
@@ -15,7 +16,7 @@ func main() {
 	http.HandleFunc("/books/update", BookUpdate)
 	http.HandleFunc("/books/delete", DeleteBook)
 	http.HandleFunc("/books/confirmdelete", ConfirmDelete)
-	
 
+	fmt.Println("server runnig")
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }

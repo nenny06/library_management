@@ -1,0 +1,27 @@
+{{define "content"}}
+    <h1>View All Available Books</h1>
+    <table>
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Publish_Date</th>
+            <th>Edition</th>
+        </tr>
+        {{range .}}
+        <tr>
+            <td>{{.Title}}</td>
+            <td>{{.Author}}</td>
+            <td>{{.PublishDate}}</td>
+            <td>{{.Edition}}</td>
+            <td>
+                <a href="/book?id={{.ID}}">View</a>
+                <a href="/books/edit?id={{.ID}}">Edit</a>
+                <a href="/books/confirmdelete?id={{.ID}}">Delete</a>
+            </td>
+        </tr>
+        {{else}}
+        <p>No Book Available</p>
+        {{end}}
+        
+    </table>
+{{end}}
