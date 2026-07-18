@@ -16,6 +16,8 @@ func main() {
 	http.HandleFunc("/books/update", BookUpdate)
 	http.HandleFunc("/books/delete", DeleteBook)
 	http.HandleFunc("/books/confirmdelete", ConfirmDelete)
+	http.Handle("/static/", http.StripPrefix("/static/",
+	http.FileServer(http.Dir("static")),),)
 
 	fmt.Println("server runnig")
 	log.Fatal(http.ListenAndServe(":8080", nil))

@@ -1,17 +1,19 @@
 {{define "content"}}
-    <h1>View All Available Books</h1>
+    <h1>All Books</h1>
+    <a href="/books/new">Add Book</a>
     <table>
         <tr>
             <th>Title</th>
             <th>Author</th>
-            <th>Publish_Date</th>
+            <th>Publish Date</th>
             <th>Edition</th>
+            <th>Action</th>
         </tr>
         {{range .}}
         <tr>
             <td>{{.Title}}</td>
             <td>{{.Author}}</td>
-            <td>{{.PublishDate}}</td>
+            <td>{{.PublishedDate}}</td>
             <td>{{.Edition}}</td>
             <td>
                 <a href="/book?id={{.ID}}">View</a>
@@ -20,7 +22,8 @@
             </td>
         </tr>
         {{else}}
-        <p>No Book Available</p>
+        <p>No books available</p>
+        <a href="/books/new">Add Your First Book</a>
         {{end}}
         
     </table>

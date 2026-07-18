@@ -1,12 +1,12 @@
 {{define "content"}}
 
-<form action="/books/create" method="POST">
+<form action="/books/create" Method="POST">
     <label for="Title">Title:</label>
-    <input type="text" id="Title" name="title">
+    <input type="text" id="Title" name="title"><br><br>
     <label for="Author">Author:</label>
-    <input type="text" id="Author" name="author">
+    <input type="text" id="Author" name="author"><br><br>
     <label for="PublishedDate">Publish Date:</label>
-    <input type="date" id="PublishedDate" name="publisheddate">
+    <input type="number" id="PublishedDate" name="publisheddate"><br><br>
     <label for="Edition">Edition:</label>
     <input type="number" id="Edition" name="edition">
     <button type="submit">Submit</button>

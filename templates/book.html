@@ -1,7 +1,9 @@
 {{define "content"}}
-<p>Title: {{Title}}</p>
+<p>Title: {{.Title}}</p>
 <p>Author: {{.Author}}</p>
 <p>Publish Date: {{.PublishedDate}}</p>
 <p>Edition: {{.Edition}}</p>
 <a href="/books">View Available Books</a>
+<a href="/books/edit?id={{.ID}}">Edit</a>
+<a href="/books/comfirmdelete?id={{.ID}}">Delete</a>
 {{end}}

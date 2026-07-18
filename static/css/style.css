@@ -1,0 +1,18 @@
+body {
+    background-color: rgb(56, 47, 35);
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 30px;
+}
+
+h1 {
+    color: aquamarine;
+    transition:hover
+}
+
+nav {
+    background-color: rgb(86, 136, 136);
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+

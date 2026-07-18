@@ -1,0 +1,10 @@
+{{define "content"}}
+    <h2>Delete Book</h2>
+    <p>Sure you want to delete</p>
+    <p>{{.Title}}  {{.Author}}</p>
+    <form action="/books/delete" method="POST">
+        <input type="hidden" name="id" value="{{.ID}}">
+        <button type="submit">Delete</button>
+    </form>
+    <a href="/books">Cancel</a>
+{{end}}

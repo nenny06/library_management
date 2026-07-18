@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"html/template"
 	"net/http"
 	"strconv"
@@ -64,18 +65,18 @@ func ViewBook(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
-	http. Error(w, "Book not found", http.StatusBadRequest)
+	http.Error(w, "Book not found", http.StatusBadRequest)
 	return
 }
 
 func ViewBooks(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/books" {
-		http.NotFound(w,r)
+		http.NotFound(w, r)
 		return
 	}
 
 	if r.Method != http.MethodGet {
-		http.Error(w,"Method not allowed", http.StatusMethodNotAllowed)
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
 	}
 	renderTemplate(w, "templates/books.html", books)
@@ -84,7 +85,7 @@ func ViewBooks(w http.ResponseWriter, r *http.Request) {
 
 func NewBook(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/books/new" {
-		http.NotFound(w,r)
+		http.NotFound(w, r)
 		return
 	}
 
@@ -97,12 +98,12 @@ func NewBook(w http.ResponseWriter, r *http.Request) {
 
 func RegisterBook(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/books/create" {
-		http.NotFound(w,r)
+		http.NotFound(w, r)
 		return
 	}
 
 	if r.Method != http.MethodPost {
-		http.Error(w, "Method not allowed",http.StatusMethodNotAllowed)
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
 	}
 
@@ -111,45 +112,44 @@ func RegisterBook(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	id := r.FormValue("id")
 	title := r.FormValue("title")
 	author := r.FormValue("author")
 	publisheddate := r.FormValue("publisheddate")
 	edition := r.FormValue("edition")
 
-	if id == "" || author == "" || title == "" || publisheddate == "" || edition == "" {
-		http.Error(w,"One or more parameter missing", http.StatusBadRequest)
+	if author == "" || title == "" || publisheddate == "" || edition == "" {
+		http.Error(w, "One or more parameter missing", http.StatusBadRequest)
 		return
 	}
 
 	convert_publisheddate, err := strconv.Atoi(publisheddate)
 	if err != nil {
-		http.Error(w, "ID required", http.StatusBadRequest)
+		http.Error(w, "Error A", http.StatusBadRequest)
 		return
 	}
 
 	convert_edition, err := strconv.Atoi(edition)
 	if err != nil {
-		http.Error(w, "ID required", http.StatusBadRequest)
+		http.Error(w, "Error B", http.StatusBadRequest)
 		return
 	}
 
 	nextid := len(books) + 1
 
 	newbook := Books{
-		ID: nextid,
-		Title: title,
-		Author: author,
+		ID:            nextid,
+		Title:         title,
+		Author:        author,
 		PublishedDate: convert_publisheddate,
-		Edition: convert_edition,
+		Edition:       convert_edition,
 	}
 	books = append(books, newbook)
-	http.Redirect(w,r,"/books", http.StatusSeeOther)
+	http.Redirect(w, r, "/books", http.StatusSeeOther)
 }
 
 func UpDateForm(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/books/edit" {
-		http.NotFound(w,r)
+		http.NotFound(w, r)
 		return
 	}
 
@@ -161,7 +161,7 @@ func UpDateForm(w http.ResponseWriter, r *http.Request) {
 	id := r.FormValue("id")
 
 	if id == "" {
-		http.Error(w, "ID required", http.StatusBadRequest)
+		http.Error(w, "Error C", http.StatusBadRequest)
 		return
 	}
 
@@ -171,9 +171,9 @@ func UpDateForm(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	for _,book := range books {
+	for _, book := range books {
 		if book.ID == convert_id {
-			renderTemplate(w, "templates/updateform.html",book)
+			renderTemplate(w, "templates/updateform.html", book)
 			return
 		}
 	}
@@ -183,7 +183,7 @@ func UpDateForm(w http.ResponseWriter, r *http.Request) {
 
 func BookUpdate(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/books/update" {
-		http.NotFound(w,r)
+		http.NotFound(w, r)
 		return
 	}
 
@@ -205,7 +205,7 @@ func BookUpdate(w http.ResponseWriter, r *http.Request) {
 
 	convert_id, err := strconv.Atoi(id)
 	if err != nil {
-		http.Error(w, "id required", http.StatusBadRequest)
+		http.Error(w, "Error D", http.StatusBadRequest)
 		return
 	}
 
@@ -227,7 +227,7 @@ func BookUpdate(w http.ResponseWriter, r *http.Request) {
 			books[i].Author = author
 			books[i].PublishedDate = convert_publisheddate
 			books[i].Edition = convert_edition
-			http.Redirect(w,r,"/books", http.StatusSeeOther)
+			http.Redirect(w, r, "/books", http.StatusSeeOther)
 			return
 		}
 	}
@@ -235,8 +235,9 @@ func BookUpdate(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteBook(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("delete working")
 	if r.URL.Path != "/books/delete" {
-		http.NotFound(w,r)
+		http.NotFound(w, r)
 		return
 	}
 
@@ -249,13 +250,13 @@ func DeleteBook(w http.ResponseWriter, r *http.Request) {
 
 	convert_id, err := strconv.Atoi(id)
 	if err != nil {
-		http.Error(w, "ID required", http.StatusBadRequest)
+		http.Error(w, "Error", http.StatusBadRequest)
 		return
 	}
 
 	for i := range books {
 		if books[i].ID == convert_id {
-			books = append(books[:i], books[i + 1:]...)
+			books = append(books[:i], books[i+1:]...)
 			http.Redirect(w, r, "/books", http.StatusSeeOther)
 			return
 		}
@@ -264,8 +265,8 @@ func DeleteBook(w http.ResponseWriter, r *http.Request) {
 }
 
 func ConfirmDelete(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/confirmdelete" {
-		http.NotFound(w,r)
+	if r.URL.Path != "/books/confirmdelete" {
+		http.NotFound(w, r)
 		return
 	}
 
@@ -282,9 +283,9 @@ func ConfirmDelete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	for _,book := range books {
+	for _, book := range books {
 		if book.ID == convert_id {
-			renderTemplate(w, "templates/confirmdelete", book)
+			renderTemplate(w, "templates/confirmdelete.html", book)
 			return
 		}
 	}
